@@ -53,6 +53,12 @@ export default defineComponent({
         iosIcon: paperPlaneOutline,
         mdIcon: paperPlaneSharp
       },
+      {
+        title: 'Einstellungen',
+        url: '/Einstellungen',
+        iosIcon: paperPlaneOutline,
+        mdIcon: paperPlaneSharp
+      },
     ];
     
     const path = window.location.pathname.split('folder/')[1];

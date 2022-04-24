@@ -8,7 +8,11 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/Spiele',
-    component: () => import ('../views/FolderPage.vue')
+    component: () => import ('../views/SpieleOrdner.vue')
+  },
+  {
+    path: '/Einstellungen',
+    component: () => import ('../views/Einstellungen.vue')
   }
 ]
 

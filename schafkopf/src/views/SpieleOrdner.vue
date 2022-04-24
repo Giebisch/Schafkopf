@@ -17,7 +17,7 @@
       </ion-header>
     
       <div id="container">
-        <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+        <spiel-tile />
       </div>
     </ion-content>
   </ion-page>
@@ -26,9 +26,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import SpielTile from './SpielTile.vue'
 
 export default defineComponent({
-  name: 'FolderPage',
+  name: 'SpieleComponent',
   components: {
     IonButtons,
     IonContent,
@@ -36,7 +37,8 @@ export default defineComponent({
     IonMenuButton,
     IonPage,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    SpielTile,
   }
 });
 </script>
@@ -47,8 +49,8 @@ export default defineComponent({
   position: absolute;
   left: 0;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  /* top: 50%;
+  transform: translateY(-50%); */
 }
 
 #container strong {

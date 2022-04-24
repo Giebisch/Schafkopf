@@ -1,14 +1,14 @@
 import { mount } from '@vue/test-utils'
-import FolderPage from '@/views/FolderPage.vue'
+import SpieleComponent from '@/views/SpieleComponent.vue'
 
-describe('FolderPage.vue', () => {
+describe('SpieleComponent.vue', () => {
   it('renders folder view', () => {
     const mockRoute = {
       params: {
         id: 'Outbox'
       }
     }
-    const wrapper = mount(FolderPage, {
+    const wrapper = mount(SpieleComponent, {
       global: {
         mocks: {
           $route: mockRoute

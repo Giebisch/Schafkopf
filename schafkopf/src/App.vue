@@ -27,6 +27,7 @@ import { IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader,
 import { defineComponent, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { archiveOutline, archiveSharp, bookmarkOutline, bookmarkSharp, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
+import { Storage } from '@ionic/storage'
 
 export default defineComponent({
   name: 'App',
@@ -67,6 +68,7 @@ export default defineComponent({
     }
     
     const route = useRoute();
+
     
     return { 
       selectedIndex,

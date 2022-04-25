@@ -20,13 +20,22 @@
         <spiel-tile />
       </div>
     </ion-content>
+
+    <ion-fab router-link="/new" vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button>
+        <ion-icon :icon="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
   </ion-page>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { defineComponent, onMounted } from 'vue';
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonFab, IonFabButton, IonIcon } from '@ionic/vue';
+import { add } from 'ionicons/icons'
 import SpielTile from './SpielTile.vue'
+import { Storage } from '@ionic/storage'
 
 export default defineComponent({
   name: 'SpieleComponent',
@@ -38,7 +47,30 @@ export default defineComponent({
     IonPage,
     IonTitle,
     IonToolbar,
+    IonFab,
+    IonFabButton,
+    IonIcon,
     SpielTile,
+  },
+  setup() {
+    return {
+      add
+    }
+  },
+  mounted() {
+    this.initStorage()
+  },
+  methods: {
+    async initStorage(){
+      let storage = new Storage()
+      await storage.create()
+      if (!(await storage.get("db"))){
+        await storage.set("db", {
+          "games": [],
+          "einstellungen": {}
+        })
+      }
+    }
   }
 });
 </script>

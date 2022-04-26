@@ -1,5 +1,7 @@
 {
   "name": "Schafkopf",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "vue"
 }

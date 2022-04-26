@@ -26,7 +26,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
-import { Storage } from '@ionic/storage'
 
 export default defineComponent({
   name: 'EinstellungenComponent',

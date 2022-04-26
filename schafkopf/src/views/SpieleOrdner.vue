@@ -17,7 +17,7 @@
       </ion-header>
     
       <div id="container">
-        <spiel-tile />
+        <spiel-tile v-for="table in db.tables.reverse()" :key="table._id" :details="table" />
       </div>
     </ion-content>
 
@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent } from 'vue';
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonFab, IonFabButton, IonIcon } from '@ionic/vue';
 import { add } from 'ionicons/icons'
 import SpielTile from './SpielTile.vue'
@@ -52,6 +52,9 @@ export default defineComponent({
     IonIcon,
     SpielTile,
   },
+  data: () => ({
+    db: {"tables": []},
+  }),
   setup() {
     return {
       add
@@ -60,15 +63,20 @@ export default defineComponent({
   mounted() {
     this.initStorage()
   },
+  ionViewDidEnter() {
+    this.initStorage()
+  },
   methods: {
     async initStorage(){
       let storage = new Storage()
       await storage.create()
       if (!(await storage.get("db"))){
         await storage.set("db", {
-          "games": [],
-          "einstellungen": {}
+          "tables": [],
+          "settings": {}
         })
+      } else {
+        this.db = await storage.get("db")
       }
     }
   }

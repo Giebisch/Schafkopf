@@ -1,31 +1,27 @@
 <template>
     <ion-card>
         <ion-card-header> 
-            <ion-card-subtitle> {{ detail.date }}</ion-card-subtitle>
-            <ion-card-title> {{ detail.name }}</ion-card-title>
+            <ion-card-subtitle> {{ details.date }} </ion-card-subtitle>
+            <ion-card-title> {{ details.name }}</ion-card-title>
         </ion-card-header>
-        <ion-card-content> {{ detail.spieler.join(', ') }}</ion-card-content>
+        <ion-card-content> {{ [details.player1, details.player2, details.player3, details.player4].join(', ') }} </ion-card-content>
     </ion-card>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonIcon, IonItem, IonLabel } from '@ionic/vue';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/vue';
 
 export default defineComponent({
     name: 'SpielTile',
-    setup() {
-        let detail = {
-            "name": "Ellmau",
-            "date": "24.04.2022",
-            "spieler": [
-                "Rafi", "Basti", "Simon", "Riva"
-            ]
-        }
-    return {
-        detail
-    }
-    }
+    props: ['details'],
+    components: {
+        IonCard,
+        IonCardContent, 
+        IonCardHeader, 
+        IonCardSubtitle, 
+        IonCardTitle, 
+    },
 })
 </script>
 

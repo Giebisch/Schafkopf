@@ -48,8 +48,6 @@
           </ion-item>
         </ion-list>
 
-        <section>
-
         <ion-list lines="full">
           <ion-list-header>
             <ion-label>Einsatz</ion-label>
@@ -67,12 +65,8 @@
             <ion-range v-model="laufende" min="10" max="30" step="5" snaps="true" value="10"></ion-range>
           </ion-item>
         </ion-list>
-
-        </section>
-
-        <section>
-          <ion-button @click="onClickCreateTable()" expand="block">Erstelle Tisch</ion-button>
-        </section>
+   
+        <ion-button @click="onClickCreateTable()" expand="block">Erstelle Tisch</ion-button>
       </div>
     </ion-content>
   </ion-page>

@@ -1,0 +1,6 @@
+{
+	"appId": "de.rafael-giebisch",
+	"appName": "Schafkopf",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}

@@ -22,7 +22,7 @@
     </ion-content>
 
     <ion-fab router-link="/new" vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button>
+      <ion-fab-button id="fabButtonAddTable">
         <ion-icon :icon="add"></ion-icon>
       </ion-fab-button>
     </ion-fab>
@@ -114,5 +114,9 @@ export default defineComponent({
 
 #container a {
   text-decoration: none;
+}
+
+#fabButtonAddTable {
+  margin: 20px;
 }
 </style>

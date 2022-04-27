@@ -17,8 +17,16 @@
       </ion-header> -->
     
       <div id="container">
-        <ion-list>
-          
+        <ion-list lines="full">
+          <ion-item>
+            <ion-label>Spiel</ion-label>
+            <ion-select v-model="spielart" value="rufspiel" interface="popover" @ionChange="calcBetrag()">
+              <ion-select-option value="rufspiel">Rufspiel</ion-select-option>
+              <ion-select-option value="solo">Solo</ion-select-option>
+              <ion-select-option value="wenz">Wenz</ion-select-option>
+              <ion-select-option value="ramsch">Ramsch</ion-select-option>
+            </ion-select>
+          </ion-item>
           <ion-item>
             <ion-label>{{ db["tables"][$route.params.id]?.player1 }}</ion-label>
             <ion-checkbox>Legen</ion-checkbox>
@@ -60,6 +68,30 @@
             </section>
           </ion-item>
         </ion-list>
+        <h2>{{ betrag }}€</h2>
+        <ion-list lines="full">
+          <ion-item>
+            <ion-label>Laufende</ion-label>
+            <ion-range v-model="laufende" min="0" max="8" step="1" snaps="true" value="0" @ionChange="calcBetrag()"></ion-range>
+          </ion-item>
+          <ion-item>
+            <ion-label>Schneider</ion-label>
+            <ion-checkbox v-model="schneider" @ionChange="calcBetrag()"></ion-checkbox>
+          </ion-item>
+          <ion-item>
+            <ion-label>Schwarz</ion-label>
+            <ion-checkbox v-model="schwarz" @ionChange="calcBetrag()"></ion-checkbox>
+          </ion-item>
+          <ion-item>
+            <ion-label>Kontra</ion-label>
+            <ion-checkbox v-model="kontra" @ionChange="calcBetrag()"></ion-checkbox>
+          </ion-item>
+          <ion-item>
+            <ion-label>Re</ion-label>
+            <ion-checkbox v-model="re" @ionChange="calcBetrag()"></ion-checkbox>
+          </ion-item>
+        </ion-list>
+        <ion-button expand="block">Spiel hinzufügen</ion-button>
       </div>
     </ion-content>
 
@@ -69,7 +101,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, 
-         IonFab, IonFabButton, IonIcon, IonSegment, IonSegmentButton, IonLabel, IonCheckbox } from '@ionic/vue';
+         IonFab, IonFabButton, IonIcon, IonSegment, IonSegmentButton, IonLabel, IonCheckbox, IonSelect, IonSelectOption,
+         IonRange, IonButton, IonItem, IonList } from '@ionic/vue';
 import { add } from 'ionicons/icons'
 import { Storage } from '@ionic/storage'
 
@@ -77,6 +110,13 @@ export default defineComponent({
   name: 'TableComponent',
   data: () => ({
     db: {"tables": []},
+    betrag: 0,
+    spielart: "rufspiel",
+    laufende: 0,
+    schneider: false,
+    schwarz: false,
+    kontra: false,
+    re: false,
   }),
   components: {
     IonButtons,
@@ -87,9 +127,15 @@ export default defineComponent({
     IonTitle,
     IonMenuButton,
     IonLabel,
-    // IonSegment, 
-    // IonSegmentButton,
+    IonSegment, 
+    IonSegmentButton,
     IonCheckbox,
+    IonSelect,
+    IonSelectOption,
+    IonRange,
+    IonButton,
+    IonItem,
+    IonList,
   },
   async mounted() {
     this.initStorage()
@@ -103,8 +149,33 @@ export default defineComponent({
       await storage.create()
       let db = await storage.get('db')
       this.db["tables"] = db["tables"]
+      this.betrag = db["tables"][this.$route.params.id.toString()]?.rufspiel
+    },
+    calcBetrag() {
+      console.log(this.schneider)
+      let newBetrag = 0
+      switch (this.spielart){
+        case "rufspiel":
+          newBetrag +=this.db["tables"][Number(this.$route.params.id)]["rufspiel"]
+          break
+        case "solo":
+          newBetrag += this.db["tables"][Number(this.$route.params.id)]["solo"]
+          break
+        case "wenz":
+          newBetrag +=this.db["tables"][Number(this.$route.params.id)]["solo"]
+          break
+        case "ramsch":
+          newBetrag += this.db["tables"][Number(this.$route.params.id)]["rufspiel"]
+          break
+      }
+      newBetrag += this.laufende * this.db["tables"][Number(this.$route.params.id)]["laufende"]
+
+      let times = 1 + [this.schneider, this.schwarz, this.kontra, this.re].filter(Boolean).length
+      newBetrag = newBetrag * times
+
+      this.betrag = newBetrag
     }
-  }
+  },
 });
 
 </script>

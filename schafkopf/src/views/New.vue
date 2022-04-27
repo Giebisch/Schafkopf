@@ -132,7 +132,8 @@ export default defineComponent({
             "player4": this.player4,
             "rufspiel": 20,
             "solo": 50,
-            "laufende": 10
+            "laufende": 10,
+            "runden": []
           }
         )
         await storage.set('db', db)

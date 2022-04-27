@@ -128,6 +128,10 @@ ion-menu.md ion-list#inbox-list ion-list-header {
   min-height: 20px;
 }
 
+#inbox-list{
+  padding-top: 70px;
+}
+
 ion-menu.md ion-list#labels-list ion-list-header {
   font-size: 16px;
 

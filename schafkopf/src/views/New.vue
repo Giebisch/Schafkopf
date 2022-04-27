@@ -74,7 +74,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonLabel, IonInput, IonList, IonRange } from '@ionic/vue';
+import { IonButtons, IonButton, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonLabel, IonInput, IonList, IonRange } from '@ionic/vue';
 import { Storage } from '@ionic/storage'
 
 export default defineComponent({
@@ -91,6 +91,7 @@ export default defineComponent({
   }),
   components: {
     IonButtons,
+    IonButton,
     IonContent,
     IonHeader,
     IonMenuButton,

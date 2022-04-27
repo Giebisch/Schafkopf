@@ -5,19 +5,19 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>{{ $route.params.id }}</ion-title>
+        <ion-title>Tische</ion-title>
       </ion-toolbar>
     </ion-header>
     
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
+      <!-- <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">{{ $route.params.id }}</ion-title>
         </ion-toolbar>
-      </ion-header>
+      </ion-header> -->
     
       <div id="container">
-        <spiel-tile v-for="table in db.tables.reverse()" :key="table._id" :details="table" />
+        <spiel-tile v-for="(table, index) in db.tables.reverse()" :key="index" :details="table" @click="routeToTable(index)"/>
       </div>
     </ion-content>
 
@@ -78,6 +78,13 @@ export default defineComponent({
       } else {
         this.db = await storage.get("db")
       }
+    },
+    async routeToTable(table : string){
+      let storage = new Storage()
+      await storage.create()
+      let db = await storage.get("db")
+      let index = db["tables"].length - Number(table) - 1
+      this.$router.push('/table/' + index)
     }
   }
 });

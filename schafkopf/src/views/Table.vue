@@ -138,7 +138,7 @@ export default defineComponent({
       let players = ["player1", "player2", "player3", "player4"]
       for(let runde in this.db["tables"][this.id]["runden"]){
         for(let player in players){
-          let round = this.db["tables"][this.id]["runden"][runde]
+          let round : any = this.db["tables"][this.id]["runden"][runde]
           let winners = [round.player1, round.player2, round.player3, round.player4].filter(e => e === "gewonnen").length
           if (winners === 2){
             winners = 1

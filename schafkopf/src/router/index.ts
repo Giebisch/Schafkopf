@@ -16,11 +16,15 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/new',
-    component: () => import ('../views/New.vue')
+    component: () => import ('../views/NewTable.vue')
   },
   {
     path: '/table/:id',
     component: () => import ('../views/Table.vue')
+  },
+  {
+    path: '/table/:id/newRound',
+    component: () => import ('../views/Round.vue')
   }
 ]
 

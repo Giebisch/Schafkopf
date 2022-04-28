@@ -65,7 +65,6 @@
             <ion-range v-model="laufende" min="10" max="30" step="5" snaps="true" value="10"></ion-range>
           </ion-item>
         </ion-list>
-   
         <ion-button @click="onClickCreateTable()" expand="block">Erstelle Tisch</ion-button>
       </div>
     </ion-content>
@@ -74,7 +73,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonButtons, IonButton, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonLabel, IonInput, IonList, IonRange } from '@ionic/vue';
+import { IonButtons, IonButton, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonLabel, IonInput, IonList, IonRange, 
+         IonListHeader, IonItem } from '@ionic/vue';
 import { Storage } from '@ionic/storage'
 
 export default defineComponent({
@@ -102,6 +102,8 @@ export default defineComponent({
     IonInput,
     IonList,
     IonRange,
+    IonListHeader,
+    IonItem,
   },
   ionViewDidEnter() {
     this.tischname = ""
@@ -137,7 +139,7 @@ export default defineComponent({
           }
         )
         await storage.set('db', db)
-        this.$router.push('/Spiele')
+        this.$router.back()
       }
     }
   }

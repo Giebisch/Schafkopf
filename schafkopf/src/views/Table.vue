@@ -17,27 +17,33 @@
             <ion-card-title>{{ runden_length }} Runden gespielt</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-item  v-if="res.player1 >= 0"><ion-label color="success">{{player1}}</ion-label> <ion-label color="success">{{ res.player1 }}€</ion-label></ion-item>
-            <ion-item v-else><ion-label color="danger">{{player1}}</ion-label> <ion-label color="danger">{{ res.player1 }}€</ion-label></ion-item>
-            <ion-item  v-if="res.player2 >= 0"><ion-label color="success">{{player2}}</ion-label> <ion-label color="success">{{ res.player2 }}€</ion-label></ion-item>
-            <ion-item v-else><ion-label color="danger">{{player2}}</ion-label> <ion-label color="danger">{{ res.player2 }}€</ion-label></ion-item>
-            <ion-item  v-if="res.player3 >= 0"><ion-label color="success">{{player3}}</ion-label> <ion-label color="success">{{ res.player3 }}€</ion-label></ion-item>
-            <ion-item v-else><ion-label color="danger">{{player3}}</ion-label> <ion-label color="danger">{{ res.player3 }}€</ion-label></ion-item>
-            <ion-item  v-if="res.player4 >= 0"><ion-label color="success">{{player4}}</ion-label> <ion-label color="success">{{ res.player4 }}€</ion-label></ion-item>
-            <ion-item v-else><ion-label color="danger">{{player4}}</ion-label> <ion-label color="danger">{{ res.player4 }}€</ion-label></ion-item>
+            <ion-item  v-if="res.player1[res.player1.length-1] >= 0"><ion-label color="success">{{player1}}</ion-label> <ion-label color="success">{{ res.player1[res.player1.length-1] }}€</ion-label></ion-item>
+            <ion-item v-else><ion-label color="danger">{{player1}}</ion-label> <ion-label color="danger">{{ res.player1[res.player1.length-1] }}€</ion-label></ion-item>
+            <ion-item  v-if="res.player2[res.player2.length-1] >= 0"><ion-label color="success">{{player2}}</ion-label> <ion-label color="success">{{ res.player2[res.player2.length-1] }}€</ion-label></ion-item>
+            <ion-item v-else><ion-label color="danger">{{player2}}</ion-label> <ion-label color="danger">{{ res.player2[res.player2.length-1] }}€</ion-label></ion-item>
+            <ion-item  v-if="res.player3[res.player3.length-1] >= 0"><ion-label color="success">{{player3}}</ion-label> <ion-label color="success">{{ res.player3[res.player3.length-1] }}€</ion-label></ion-item>
+            <ion-item v-else><ion-label color="danger">{{player3}}</ion-label> <ion-label color="danger">{{ res.player3[res.player3.length-1] }}€</ion-label></ion-item>
+            <ion-item  v-if="res.player4[res.player4.length-1] >= 0"><ion-label color="success">{{player4}}</ion-label> <ion-label color="success">{{ res.player4[res.player4.length-1] }}€</ion-label></ion-item>
+            <ion-item v-else><ion-label color="danger">{{player4}}</ion-label> <ion-label color="danger">{{ res.player4[res.player4.length-1] }}€</ion-label></ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card v-if="renderChart">
+          <ion-card-content>
+            <line-chart-component :chartData="res" :player1="player1" :player2="player2" :player3="player3" :player4="player4"></line-chart-component>
           </ion-card-content>
         </ion-card>
 
         <ion-list v-for="(round, index) in runden" :key="index">
           <ion-card-subtitle>{{index + 1}}. {{ round.spielart }}: {{ round.betrag }}€</ion-card-subtitle>
-          <ion-item><ion-label>{{player1}}</ion-label><ion-label>{{ round.player1 }}</ion-label></ion-item>
-          <ion-item><ion-label>{{player2}}</ion-label><ion-label>{{ round.player2 }}</ion-label></ion-item>
-          <ion-item><ion-label>{{player3}}</ion-label><ion-label>{{ round.player3 }}</ion-label></ion-item>
-          <ion-item><ion-label>{{player4}}</ion-label><ion-label>{{ round.player4 }}</ion-label></ion-item>
+          <ion-item><ion-label>{{player1}}</ion-label><ion-label>{{ round.player1 }}</ion-label><ion-label>{{res.player1[index+1]}}€</ion-label></ion-item>
+          <ion-item><ion-label>{{player2}}</ion-label><ion-label>{{ round.player2 }}</ion-label><ion-label>{{res.player2[index+1]}}€</ion-label></ion-item>
+          <ion-item><ion-label>{{player3}}</ion-label><ion-label>{{ round.player3 }}</ion-label><ion-label>{{res.player3[index+1]}}€</ion-label></ion-item>
+          <ion-item><ion-label>{{player4}}</ion-label><ion-label>{{ round.player4 }}</ion-label><ion-label>{{res.player4[index+1]}}€</ion-label></ion-item>
         </ion-list>
       </div>
     </ion-content>
-    <ion-fab :router-link="routerLink" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab :router-link="routerLink" @click="setRenderFalse()" vertical="bottom" horizontal="end" slot="fixed">
       <ion-fab-button id="fabButtonAddRound">
         <ion-icon :icon="add"></ion-icon>
       </ion-fab-button>
@@ -53,6 +59,7 @@ import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, Io
          IonRange, IonButton, IonItem, IonList } from '@ionic/vue';
 import { add } from 'ionicons/icons'
 import { Storage } from '@ionic/storage'
+import LineChartComponent from './LineChart.vue'
 
 export default defineComponent({
   name: 'TableComponent',
@@ -65,9 +72,15 @@ export default defineComponent({
     player2: "",
     player3: "",
     player4: "",
-    res: {},
+    res: {
+      "player1": [0],
+      "player2": [0],
+      "player3": [0],
+      "player4": [0],
+    },
     betrag: 0,
     runden: [],
+    renderChart: false,
   }),
   components: {
     IonButtons,
@@ -96,17 +109,18 @@ export default defineComponent({
     // IonButton,
     IonItem,
     // IonList,
+    LineChartComponent,
   },
   setup(){
     return {
       add
     }
   },
-  async mounted() {
-    this.initStorage().then(() =>
-      this.calcErgebnisse()
-    )
-  },
+  // async mounted() {
+  //   this.initStorage().then(() =>
+  //     this.calcErgebnisse()
+  //   )
+  // },
   ionViewDidEnter() {
     this.initStorage().then(() =>
       this.calcErgebnisse()
@@ -128,15 +142,18 @@ export default defineComponent({
       this.betrag = db["tables"][this.id].betrag
       this.runden = db["tables"][this.id].runden
     },
-    calcErgebnisse(){
+    calcErgebnisse(max_round = null){
       let res = {
-        "player1": 0,
-        "player2": 0,
-        "player3": 0,
-        "player4": 0
+        "player1": [0],
+        "player2": [0],
+        "player3": [0],
+        "player4": [0]
       }
       let players = ["player1", "player2", "player3", "player4"]
       for(let runde in this.db["tables"][this.id]["runden"]){
+        if (max_round && runde > max_round){
+          break;
+        }
         for(let player in players){
           let round : any = this.db["tables"][this.id]["runden"][runde]
           let winners = [round.player1, round.player2, round.player3, round.player4].filter(e => e === "gewonnen").length
@@ -150,37 +167,41 @@ export default defineComponent({
           if(erg === "gewonnen"){
             switch(player){
               case "0":
-                res["player1"] += bet * winners
+                res["player1"].push(res["player1"][runde as any] + bet * winners)
                 break;
               case "1":
-                res["player2"] += bet * winners
+                res["player2"].push(res["player2"][runde as any] + bet * winners)
                 break;
               case "2":
-                res["player3"] += bet * winners
+                res["player3"].push(res["player3"][runde as any] + bet * winners)
                 break;
               case "3":
-                res["player4"] += bet * winners
+                res["player4"].push(res["player4"][runde as any] + bet * winners)
                 break;
             }
           } else {
             switch(player){
               case "0":
-                res["player1"] -= bet
+                res["player1"].push(res["player1"][runde as any] - bet)
                 break;
               case "1":
-                res["player2"] -= bet
+                res["player2"].push(res["player2"][runde as any] - bet)
                 break;
               case "2":
-                res["player3"] -= bet
+                res["player3"].push(res["player3"][runde as any] - bet)
                 break;
               case "3":
-                res["player4"] -= bet
+                res["player4"].push(res["player4"][runde as any] - bet)
                 break;
             }
           }
         }
       }
       this.res = res
+      this.renderChart = true
+    },
+    setRenderFalse() {
+      this.renderChart = false
     }
   },
 });

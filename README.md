@@ -8,6 +8,8 @@ Hybrid app with Ionic + Vue to work on any device (iOS, Android, browser, ...)
 
 ## Example Screenshots
 
-<img src="docs/main.png" width=250px>
-<img src="docs/add_game.png" width=250px>
-<img src="docs/stats.png" width=250px>
+<p float="center">
+    <img src="docs/main.png" width=250px>
+    <img src="docs/add_game.png" width=250px>
+    <img src="docs/stats.png" width=250px>
+</p>
